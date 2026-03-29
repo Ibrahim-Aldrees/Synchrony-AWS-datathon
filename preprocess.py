@@ -161,9 +161,8 @@ def add_lag_features(df: pd.DataFrame) -> pd.DataFrame:
     """Add lag and rolling features grouped by portfolio — no cross-portfolio leakage."""
     df = df.sort_values(["portfolio", "timestamp"]).reset_index(drop=True)
 
-    # lag_672 = 2 weeks back, lag_2016 = 6 weeks back
-    # interval data spans 91 days so lag_2016 has ~49 days of valid rows — acceptable
-    for lag in [1, 2, 48, 336, 672, 2016]:
+    # lag_48 = 1 day back, lag_336 = 1 week back
+    for lag in [1, 2, 48, 336]:
         for col in ["Call_Volume", "CCT", "Abandoned_Rate"]:
             df[f"{col}_lag_{lag}"] = df.groupby("portfolio")[col].shift(lag)
 
